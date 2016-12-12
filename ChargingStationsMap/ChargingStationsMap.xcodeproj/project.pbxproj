@@ -12,6 +12,8 @@
 		555EB4FE1DFA36F7005BAC74 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555EB4FC1DFA36F7005BAC74 /* Main.storyboard */; };
 		555EB5001DFA36F7005BAC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 555EB4FF1DFA36F7005BAC74 /* Assets.xcassets */; };
 		555EB5031DFA36F7005BAC74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555EB5011DFA36F7005BAC74 /* LaunchScreen.storyboard */; };
+		555EB50B1DFBAFCD005BAC74 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555EB50A1DFBAFCD005BAC74 /* DataLoader.swift */; };
+		555EB50D1DFE28D6005BAC74 /* ChargingStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555EB50C1DFE28D6005BAC74 /* ChargingStation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		555EB4FF1DFA36F7005BAC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		555EB5021DFA36F7005BAC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		555EB5041DFA36F7005BAC74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		555EB50A1DFBAFCD005BAC74 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		555EB50C1DFE28D6005BAC74 /* ChargingStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargingStation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				555EB4F81DFA36F7005BAC74 /* AppDelegate.swift */,
 				555EB4FA1DFA36F7005BAC74 /* ViewController.swift */,
+				555EB50A1DFBAFCD005BAC74 /* DataLoader.swift */,
+				555EB50C1DFE28D6005BAC74 /* ChargingStation.swift */,
 				555EB4FC1DFA36F7005BAC74 /* Main.storyboard */,
 				555EB4FF1DFA36F7005BAC74 /* Assets.xcassets */,
 				555EB5011DFA36F7005BAC74 /* LaunchScreen.storyboard */,
@@ -97,6 +103,11 @@
 					555EB4F41DFA36F6005BAC74 = {
 						CreatedOnToolsVersion = 8.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -137,7 +148,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				555EB4FB1DFA36F7005BAC74 /* ViewController.swift in Sources */,
+				555EB50D1DFE28D6005BAC74 /* ChargingStation.swift in Sources */,
 				555EB4F91DFA36F7005BAC74 /* AppDelegate.swift in Sources */,
+				555EB50B1DFBAFCD005BAC74 /* DataLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

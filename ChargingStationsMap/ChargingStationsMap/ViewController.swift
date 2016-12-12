@@ -15,6 +15,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var centerLocationView: UIView!
     
     var userLocation = CLLocationCoordinate2D(latitude: 37.2482536, longitude: -122.014477);
+    var dataLoader = DataLoader()
     
     @IBAction func centerMap() {
         mapView.setUserTrackingMode(.follow, animated: true)
@@ -27,7 +28,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if let location = mapView.userLocation.location {
             userLocation = location.coordinate
         }
-        let region = MKCoordinateRegionMakeWithDistance(userLocation, 2000, 2000)
+        let region = MKCoordinateRegionMakeWithDistance(userLocation, 5000, 5000)
         mapView.setRegion(region, animated: true)
     }
     
@@ -38,6 +39,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             if let location = mapView.userLocation.location {
                 self.userLocation = location.coordinate
                 mapView.setUserTrackingMode(.follow, animated: true)
+                showStations()
                 updateOnLaunch = false
             }
             mapView.centerCoordinate = self.userLocation
@@ -48,6 +50,21 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if mapView.userTrackingMode == .none {
             centerLocationView.isHidden = false
         }
+    }
+    
+    func showStations() {
+        let location = userLocation
+        let latitudeDelta = mapView.region.span.latitudeDelta * 69.0 / 2
+        let longitudeDelta = mapView.region.span.longitudeDelta * 69.0 * abs((cos(2 * M_PI * location.latitude / 360.0))) / 2
+        let distance = latitudeDelta > longitudeDelta ? latitudeDelta : longitudeDelta
+        //print(latitudeDelta)
+        //print(longitudeDelta)
+        dataLoader.downloadDataForLocation(latitude: location.latitude, longitude: location.longitude, distance: distance) { result in
+            DispatchQueue.main.async {
+                self.mapView.addAnnotations(result)
+            }
+        }
+        
     }
 
 }
