@@ -39,7 +39,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
             if let location = mapView.userLocation.location {
                 self.userLocation = location.coordinate
                 mapView.setUserTrackingMode(.follow, animated: true)
-                showStations()
                 updateOnLaunch = false
             }
             mapView.centerCoordinate = self.userLocation
@@ -52,8 +51,43 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        showStations()
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "ChargingStation"
+        if annotation is ChargingStation {
+            if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+                annotationView.annotation = annotation
+                return annotationView
+            } else {
+                let annotationView = MKPinAnnotationView(annotation:annotation, reuseIdentifier:identifier)
+                annotationView.isEnabled = true
+                annotationView.canShowCallout = true
+                
+                let btn = UIButton(type: .detailDisclosure)
+                annotationView.rightCalloutAccessoryView = btn
+                return annotationView
+            }
+        }
+        return nil
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let chargingStation = view.annotation as! ChargingStation
+        let coordinate = chargingStation.coordinate
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+        if let title = chargingStation.title {
+            mapItem.name = "\(title) Charging Station"
+        } else {
+            mapItem.name = "Charging Station"
+        }
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+    }
+    
     func showStations() {
-        let location = userLocation
+        let location = mapView.centerCoordinate
         let latitudeDelta = mapView.region.span.latitudeDelta * 69.0 / 2
         let longitudeDelta = mapView.region.span.longitudeDelta * 69.0 * abs((cos(2 * M_PI * location.latitude / 360.0))) / 2
         let distance = latitudeDelta > longitudeDelta ? latitudeDelta : longitudeDelta
@@ -61,6 +95,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         //print(longitudeDelta)
         dataLoader.downloadDataForLocation(latitude: location.latitude, longitude: location.longitude, distance: distance) { result in
             DispatchQueue.main.async {
+                self.mapView.removeAnnotations(self.mapView.annotations)
                 self.mapView.addAnnotations(result)
             }
         }

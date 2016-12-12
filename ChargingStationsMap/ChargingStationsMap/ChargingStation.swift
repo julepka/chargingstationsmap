@@ -10,6 +10,7 @@ import Foundation
 import MapKit
 
 class ChargingStation: NSObject, MKAnnotation {
+    var identifier = "ChargingStation"
     var operatorName: String?
     var usageType: String?
     var title: String?
